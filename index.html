@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
+    <title>IntelliEd</title>
+
+</head>
+<body>
+    <div id="main-container">
+
+        <nav id="navigation-container">
+            <h2 id="title">Intelli<span id="ed">Ed</span></h2>
+            <div id="add-ons-container">
+                <div id="editor">Editor</div>
+                <div id="suggestion">Suggestion</div>
+                <div id="settings">Settings</div>
+            </div>
+        </nav>
+
+        <main class="subsections" id="editor-container">
+            <h3>Editor IDE</h3>
+            <div id="major">
+                <div class="wrapper">
+                    <div class="editor">
+                       <div class="editor__code">
+                          <div id="editorCode"></div>
+                       </div>
+                 
+                       <div class="editor__preview">
+                          <iframe id="editorPreview" frameborder="0"></iframe>
+                       </div>
+                    </div>
+                 
+                    <div class="buttons">
+                       <button class="button" id="editorCopyClipboard">Copy HTML</button>
+                    </div>
+                 </div>
+            </div>
+
+        </main>
+
+        <div class="subsections" id="terminal-container">
+            <h3>Terminal Output</h3>
+        </div>
+
+        <div class="subsections" id="ai-container">
+            <h3>Chatbot</h3>
+        </div>
+    </div>
+
+    
+</body>
+</html>
