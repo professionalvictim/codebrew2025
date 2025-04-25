@@ -5,4 +5,8 @@ st.set_page_config(
     layout="wide",
 )
 
-st.markdown("HELLO")
+audio_value = st.audio_input("Record Something")
+
+if audio_value:
+    st.markdown("Listen to yourself")
+    st.audio(audio_value)
