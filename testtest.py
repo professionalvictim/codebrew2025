@@ -1,7 +1,5 @@
-import time
+import streamlit as st
 import speech_recognition as sr
-from manual_add import raw_lyrics
-import regex as re
 
 class LyricLine:
     def __init__(self, text):
@@ -9,9 +7,14 @@ class LyricLine:
         self.text = text
 
 class Song:
-    def __init__(self, lyrics):
-        self.lyrics = lyrics
-        self.clean_lyrics()
+    def __init__(self, raw_lyrics):
+        self.lyrics = self.make_lyrics(raw_lyrics)
+
+    def make_lyrics(self, raw_lyrics):
+        lyrics = []
+        for line in raw_lyrics.split('\n'):
+            lyrics.append(LyricLine(line))
+        return lyrics
 
     def delete_previous_lines(self, index):
         if index > 0:
@@ -51,9 +54,8 @@ class Song:
     def get_current_lyric(self):
         for lyric in self.lyrics:
             if lyric.status == 'currently_playing':
-                print(lyric.text)
-                return
-        print("no line matched yet")
+                return(lyric.text)
+        return("no line matched yet")
 
     def listen_and_update(self):
         recognizer = sr.Recognizer()
@@ -83,22 +85,4 @@ class Song:
 
             self.update_lyric_status(sung_text)
             print("------ Current Lyric ------")
-            self.get_current_lyric()
-
-    def clean_lyrics(self):
-        cleaned_lyrics = re.sub(r'\[.*?\]', '', lyrics)
-        print(cleaned_lyrics)
-
-# Sample lyrics (without timestamp)
-lyrics = [
-    LyricLine("This is the first line of the song"),
-    LyricLine("This is the second line of the song"),
-    LyricLine("This is the third line of the song"),
-    LyricLine("This is the fourth line of the song")
-]
-
-
-
-# Start the song
-song = Song(lyrics)
-song.listen_and_update()
+            return(self.get_current_lyric())

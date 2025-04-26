@@ -4,6 +4,8 @@ import requests
 from pathlib import Path
 from lyricsgenius import Genius
 import yt_dlp
+import time
+from testtest import LyricLine, Song
 
 # API Keys and track directory
 RAPID_API_KEY = "b37af82edemsh866749ea931657ep18b9bdjsn2189d3775723"
@@ -14,6 +16,7 @@ genius = Genius(genius_token)
 
 raw_lyrics = ""
 cleaned_lyrics = ""
+
 
 def extract_yt_id(url):
     # Extract the pattern from full length or shortened youtube urls
@@ -70,6 +73,25 @@ def get_youtube_link(song_name):
         return None
 
 
+def remove_bracket_lines(text):
+    """Removes any line that contains a square bracket."""
+    lines = text.strip().split('\n')
+    return '\n'.join(line for line in lines if '[' not in line)
+
+
+def remove_empty_lines(text):
+    """Removes all empty lines."""
+    lines = text.strip().split('\n')
+    return '\n'.join(line for line in lines if line.strip() != '')
+
+
+# Combine both functions
+def clean_text(text):
+    no_brackets = remove_bracket_lines(text)
+    no_empties = remove_empty_lines(no_brackets)
+    return no_empties
+
+
 st.title("Lyrics Downloader")
 song_name = st.text_input("Enter song name:")
 artist = st.text_input("Enter artist name:")
@@ -80,10 +102,8 @@ if st.button("Get Lyrics"):
         song = genius.search_song(title=song_name, artist=artist)
         if song:
             if (song.artist == artist):
-                lyrics = song.lyrics
-                start = lyrics.find("[Verse 1]")
-
-                st.text(cleaned_lyrics)
+                cleaned_lyrics = clean_text(song.lyrics)
+                print(cleaned_lyrics)
             else:
                 st.error("No lyrics found")
         else:
@@ -91,7 +111,9 @@ if st.button("Get Lyrics"):
     else:
         st.error("Please enter a song name and artist together (Genius API).")
 
-# Nicey's code goes here
+if st.button("Start Karaoke-ing"):
+    song = Song(cleaned_lyrics)
+    curr_line = song.listen_and_update()
+    st.text(curr_line)
 
-st.button("Start Karaoke-ing")
 st.button("Stop")

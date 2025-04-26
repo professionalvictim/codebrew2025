@@ -1,5 +1,7 @@
 import streamlit as st
 from PIL import Image
+from urllib.parse import urlencode
+import requests
 
 
 
@@ -7,10 +9,11 @@ from PIL import Image
 im = Image.open("favicon.png")
 
 st.set_page_config(
-    page_title="InTeliPrompt",
+    page_title="KaraokeFlow",
     layout="wide",
     page_icon=im
 )
+
 
 
 # navigation sidebar
@@ -23,6 +26,6 @@ pages = {
 }
 
 pg = st.navigation(pages)
-
 pg.run()
+
 
