@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
 from urllib.parse import urlencode
-import speech_recognition as sr
 
 
 
@@ -14,28 +13,6 @@ st.image("logo.png")
 
 
 
-# Initialize recognizer
-recognizer = sr.Recognizer()
-
-# Use the default microphone as the audio source
-with sr.Microphone() as source:
-    if st.button("Start"):
-        st.write("Listening...")
-        try:
-            # Adjust for ambient noise and record
-            recognizer.adjust_for_ambient_noise(source)
-            audio = recognizer.listen(source)
-
-            # Recognize speech using Google Web Speech API
-            text = recognizer.recognize_google(audio)
-            st.write("You said:", text)
-        except sr.UnknownValueError:
-            print("Sorry, what did you say")
-        except sr.RequestError as e:
-            print(f"Could not request results; {e}")
-
-        if st.button("Stop"):
-            st.write("Stops")
 
 
 CLIENT_ID     = "d71f5a9c01194c12b5b65f43032a0ea5"
@@ -86,7 +63,8 @@ if st.session_state.get("spotify_token"):
 
 
  #Add the login stuff here
-st.button(f"[Log in with Spotify]({login_url})")
+st.link_button("Log in with Spotify", login_url)
+    
 
 
 
